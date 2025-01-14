@@ -1,0 +1,18 @@
+{
+  "name": "button-masher",
+  "version": "0.1.0",
+  "module": "src/app.js",
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "bun-types": "latest"
+  },
+  "scripts": {
+    "dev": "bun run --watch server.js",
+    "migrate": "./database/migrate.sh",
+    "compress": "find public -type f \\( -name '*.html' -o -name '*.js' -o -name '*.css' \\) -exec brotli -f {} \\;",
+    "lint": "biome check",
+    "format": "biome check --fix",
+    "start": "bun run server.js",
+    "seed": "bun run database/seed.js"
+  }
+}

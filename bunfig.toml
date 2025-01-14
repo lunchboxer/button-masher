@@ -1,0 +1,5 @@
+[loader]
+".svg" = "text"
+
+[test]
+preload = "./test/preload.js"

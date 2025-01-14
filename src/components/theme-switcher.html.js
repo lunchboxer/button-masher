@@ -38,8 +38,8 @@ export const themeSwitcher = html`
     cursor: pointer;
     padding: 0;
     margin: 0;
-    height: 1.2rem;
-    width: 1.2rem;
+    height: 24px;
+    width: 24px;
   }
 </style>
 

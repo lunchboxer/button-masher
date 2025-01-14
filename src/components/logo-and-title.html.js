@@ -1,11 +1,11 @@
 import { html } from '../utils/html.js'
-import briefcaseIcon from './icons/briefcase.svg'
+import circleIcon from './icons/circle.svg'
 
 export const logoAndTitle = html`
 <a class="title-link" id="main-title" href="/">
   <span class="logo">
-    ${briefcaseIcon}
+    ${circleIcon}
   </span>
-  <h1 class="title">App Name</h1>
+  <h1 class="title">Button Masher</h1>
 </a>
 `

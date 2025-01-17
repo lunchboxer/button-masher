@@ -4,14 +4,20 @@ import { db, generateId } from './db.js'
 import { queries } from './queryLoader.js'
 
 export const userModel = {
-  /**
-   * Retrieves all users
-   * @returns {{data: Array<Object>|null, errors: Object|null}}
-   * An object containing either an array of users or an error
-   */
-  list: () => {
-    const getAllStatement = db.query(queries.getAllUsers)
-    const result = getAllStatement.all()
+  list: role => {
+    let result = []
+    if (role) {
+      const roles = Array.isArray(role) ? role : [role]
+      // add the right number of placeholders (?) to the query
+      const query = queries.getAllUsersByRole.replace(
+        '/* roles */',
+        roles.map(() => '?').join(','),
+      )
+      const statement = db.query(query)
+      result = statement.all(...roles)
+    } else {
+      result = db.query(queries.getAllUsers).all()
+    }
     const users = result.map(user => sanitizeObject(user))
     return {
       data: users,

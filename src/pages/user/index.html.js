@@ -48,7 +48,7 @@ ${users.length === 0 ? html`<p>No users found</p>` : userList(users)}
 const allUsersPage = data => layout({ title, content, data })
 
 export const GET = (context, _request) => {
-  const { data: users, errors } = userModel.list()
+  const { data: users, errors } = userModel.list(['user', 'admin'])
   if (errors) {
     throw new Error(errors.all)
   }

@@ -14,7 +14,7 @@ ${
   <dt>Username</dt>
   <dd>${user.username}</dd>
   <dt>Email</dt>
-  <dd>${user.email}</dd>
+  <dd>${user.email || '-'}</dd>
   <dt>Name</dt>
   <dd>${user.name || '-'}</dd>
   <dt>Role</dt>

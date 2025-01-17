@@ -16,8 +16,6 @@ export const layout = ({ title, headExtras, content, data }) => html`
   <meta name="view-transition" content="auto">
 
   <link href="https://fonts.font.im/css?family=Roboto+Slab" rel="stylesheet">
-
-
   <link rel="stylesheet" href="/public/styles.css" type="text/css" />
   ${headExtras}
 </head>
@@ -34,6 +32,12 @@ export const layout = ({ title, headExtras, content, data }) => html`
 
   ${footer}
   <script src="/public/scripts.js" type="text/javascript"></script>
+  ${
+  process.env.NODE_ENV === 'development' &&
+  `
+  <script src="/public/hot-reloader.js" type="module"></script>
+  `
+  }
 </body>
 
 </html>

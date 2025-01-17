@@ -13,8 +13,6 @@ import { serveStaticFile } from './utils/serve-static.js'
 const pagesDir = './pages'
 const routeMap = await createRouteMap(pagesDir)
 
-// const dev = process.env.NODE_ENV !== 'production'
-
 export const createServer = (port, hostname) => {
   return Bun.serve({
     port,
@@ -30,13 +28,6 @@ export const createServer = (port, hostname) => {
 
       secureHeadersMiddleware(context)
 
-      // if (dev) {
-      //   context.headers.set(
-      //     'cache-control',
-      //     'no-store, no-cache, must-revalidate',
-      //   )
-      // }
-      // Serve static files first
       const staticResponse = await serveStaticFile(context, request)
       if (staticResponse) {
         return staticResponse

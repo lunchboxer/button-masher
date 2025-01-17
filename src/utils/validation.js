@@ -1,5 +1,6 @@
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 const idRegex = /^[a-zA-Z0-9-_]{16}$/
+const isStudentLogin = /^(?!.*(www|ppp))[rgbwyp]{4,8}(?<![wp])$/
 
 export const validators = {
   isRequired: value => value !== undefined && value !== null && value !== '',
@@ -8,6 +9,7 @@ export const validators = {
   isEmail: value => value && emailRegex.test(value),
   isInArray: (value, array) => value && array.includes(value),
   isId: value => value && idRegex.test(value),
+  isStudentLogin: value => value && isStudentLogin.test(value),
 }
 
 const validationRules = {
@@ -34,6 +36,10 @@ const validationRules = {
   id: (value, ruleValue, fieldName) =>
     ruleValue && !validators.isId(value)
       ? `${fieldName} must be a valid ID.`
+      : null,
+  studentLogin: (value, ruleValue, fieldName) =>
+    ruleValue && !validators.isStudentLogin(value)
+      ? `${fieldName} must contain only characters r, g, b, w, y, and p. Sequences "www" and "ppp" are not allowed. Passwords cannot end with "w" or "p".`
       : null,
 }
 

@@ -624,7 +624,7 @@ nav ul.menu hr {
   text-decoration: none;
   color: var(--color);
   transition: color 0.3s ease;
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
 }
 
 .menuToggle a:hover {
@@ -690,7 +690,7 @@ nav li {
 
 nav li.section-title {
   color: var(--primary-color);
-  padding: 0.5rem 2rem;
+  padding: 0.5rem 1rem;
 }
 
 nav li label {
@@ -895,6 +895,43 @@ dd {
   overflow: hidden;
   padding: 0;
   border: none;
+}
+
+#password-dots {
+  display: flex;
+  gap: 0.2rem;
+  padding: 0.5rem 0;
+}
+.password-dots div,
+#password-dots div {
+  width: 2rem;
+  display: inline-block;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+}
+#password-dots div.r {
+  background-color: light-dark(var(--latte-red), var(--mocha-red));
+}
+
+#password-dots div.p {
+  background-color: light-dark(var(--latte-pink), var(--mocha-pink));
+}
+
+#password-dots div.g {
+  background-color: light-dark(var(--latte-green), var(--mocha-green));
+}
+
+#password-dots div.b {
+  background-color: light-dark(var(--latte-blue), var(--mocha-blue));
+}
+
+#password-dots div.y {
+  background-color: light-dark(var(--latte-yellow), var(--mocha-yellow));
+}
+
+#password-dots div.w {
+  background-color: #fff;
 }
 
 @media (min-width: 576px) {

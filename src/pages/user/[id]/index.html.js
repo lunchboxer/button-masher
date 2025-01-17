@@ -13,7 +13,7 @@ const content = ({ selectedUser = {} }) => html`
   <dt>Name</dt>
   <dd>${selectedUser.name || '-'}</dd>
   <dt>Email</dt>
-  <dd>${selectedUser.email}</dd>
+  <dd>${selectedUser.email || '-'}</dd>
   <dt>Role</dt>
   <dd>${selectedUser.role}</dd>
   <dt>ID</dt>

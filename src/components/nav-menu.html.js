@@ -33,6 +33,20 @@ ${
     </a>
   </label>
 </li>
+<li>
+  <label for="navMenuCheckbox">
+    <a href="/student">
+      Students
+    </a>
+  </label>
+</li>
+<li>
+  <label for="navMenuCheckbox">
+    <a href="/question-group">
+      Question Groups
+    </a>
+  </label>
+</li>
 `
 }
 <li class="section-title">

@@ -1,6 +1,9 @@
 -- name: getAllUsers
 SELECT id, username, name, email, role FROM user;
 
+-- name: getAllUsersByRole
+SELECT id, username, name, email, role FROM user WHERE role IN (/* roles */);
+
 -- name: countUsers
 SELECT COUNT(1) as count FROM user;
 
@@ -54,7 +57,7 @@ SELECT 1 FROM question_group WHERE name = ?;
 SELECT 1 FROM question_group WHERE name = ? AND id != ?;
 
 -- name: getAllQuestionGroups
-SELECT id, name, description FROM question_group;
+SELECT id, name, description FROM question_group ORDER BY created_at DESC;
 
 -- name: getQuestionGroupById
 SELECT id, name, description FROM question_group WHERE id = ?;

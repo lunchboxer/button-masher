@@ -1,26 +1,22 @@
-function connectWebSocket() {
-  console.info('Connecting to hot-reload server...')
-  const ws = new WebSocket(
-    `ws://${location.hostname}:${Number.parseInt(location.port) + 1}`,
-  )
+function connectSse() {
+  console.info('🏃 Connecting to hot-reload server...')
+  const eventSource = new EventSource('/reload')
 
-  ws.onmessage = () => {
-    location.reload()
-  }
-  ws.onopen = () => {
-    console.info(
-      `🔥 Hot reloader is running on ws://${location.hostname}:${Number.parseInt(location.port) + 1}`,
-    )
+  eventSource.onmessage = message => {
+    if (message.data === 'reload') {
+      location.reload()
+    }
   }
 
-  ws.onclose = () => {
-    console.info('WebSocket connection closed. Reconnecting...')
-    setTimeout(connectWebSocket, 1000) // Reconnect after 1 second
+  eventSource.onopen = () => {
+    console.info('🔥 Hot reloader is listening for changes...')
   }
 
-  ws.onerror = error => {
-    console.error('WebSocket error:', error)
+  eventSource.onerror = () => {
+    console.info('SSE connection error. Reconnecting...')
+    eventSource.close()
+    setTimeout(connectSse, 1000) // Reconnect after 1 second
   }
 }
 
-connectWebSocket()
+connectSse()

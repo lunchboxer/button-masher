@@ -1,6 +1,6 @@
+import { questionGroupModel } from '../../models/questionGroupModel.js'
 import { html } from '../../utils/html.js'
 import { layout } from '../_layout.html.js'
-import { questionGroupModel } from '../../models/questionGroupModel.js'
 
 const title = 'Question Groups'
 

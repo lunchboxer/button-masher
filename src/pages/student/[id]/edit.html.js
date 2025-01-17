@@ -1,3 +1,4 @@
+import { passwordDots } from '../../../components/password-dots.html.js'
 import { userModel } from '../../../models/userModel.js'
 import { setAlert } from '../../../utils/alert.js'
 import { html } from '../../../utils/html.js'
@@ -5,7 +6,6 @@ import { redirect } from '../../../utils/redirect.js'
 import { updateStudentSchema } from '../../../utils/validation-schemas.js'
 import { validate } from '../../../utils/validation.js'
 import { layout } from '../../_layout.html.js'
-import { passwordDots } from '../../../components/password-dots.html.js'
 
 const title = 'Edit Student'
 

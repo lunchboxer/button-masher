@@ -31,11 +31,11 @@ export const layout = ({ title, headExtras, content, data }) => html`
   </main>
 
   ${footer}
-  <script src="/public/scripts.js" type="text/javascript"></script>
+  <script src="/public/scripts.js" defer></script>
   ${
     process.env.NODE_ENV === 'development' &&
     `
-  <script src="/public/hot-reloader.js" type="module"></script>
+  <script src="/public/hot-reloader.js" defer></script>
   `
   }
 </body>

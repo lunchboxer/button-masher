@@ -3,7 +3,7 @@ import { themeSwitcher } from './theme-switcher.html.js'
 
 export const footer = html`
 <footer>
-  <p>made with 💖 by james | <span class="icp">湘ICP备20004695号-1</span></p>
+  <p>made with 💖 by james <span class="icp">湘ICP备20004695号-1</span></p>
   ${themeSwitcher}
 </footer>
 
@@ -21,7 +21,9 @@ export const footer = html`
   }
 
   footer .icp {
+    display: none;
     font-size: 0.7rem;
+    margin-left: 1rem;
   }
 
   footer

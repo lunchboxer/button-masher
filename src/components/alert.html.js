@@ -19,7 +19,7 @@ export const alertComponent = ({ errors, alert }) => {
     return html`
 <input type="checkbox" id="alert-dismiss" />
 <aside class="alert alert-error" role="alert" aria-live="assertive">
-  ${alertTriangleIcon}
+  <span class="alert-icon">${alertTriangleIcon}</span>
   <p>${errors.all}</p>
   <label for="alert-dismiss">
     ${xIcon}
@@ -29,13 +29,9 @@ export const alertComponent = ({ errors, alert }) => {
   }
   if (alert) {
     return html`
-<input type="checkbox" id="alert-dismiss" />
 <aside class="alert alert-${alert.type}" role="alert" aria-live="assertive">
-  ${showIcon(alert.type)}
+  <span class="alert-icon">${showIcon(alert.type)}</span>
   <p>${alert.message}</p>
-  <label for="alert-dismiss">
-    ${xIcon}
-  </label>
 </aside>
 
 `

@@ -55,7 +55,7 @@ export const POST = context => {
   }
   setAlert(
     context,
-    `Question group "${questionGroup.name}" created successfully.`,
+    `Question group "${context.body.name}" created successfully.`,
   )
   return redirect(context, `/question-group/${questionGroup.id}`)
 }

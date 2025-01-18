@@ -1,3 +1,4 @@
+let eventSource = null
 let retryCount = 0
 const maxRetries = 10
 const initialDelay = 1000 // milliseconds
@@ -6,7 +7,7 @@ const increaseFactor = 1.5
 
 function connectSse() {
   console.info('🏃 Connecting to hot-reload server...')
-  const eventSource = new EventSource('/reload')
+  eventSource = new EventSource('/reload')
 
   eventSource.onmessage = message => {
     if (message.data === 'reload') {
@@ -38,5 +39,12 @@ function connectSse() {
     setTimeout(connectSse, delay)
   }
 }
+
+// Close the SSE connection when the page is unloaded
+window.addEventListener('beforeunload', () => {
+  if (eventSource) {
+    eventSource.close()
+  }
+})
 
 connectSse()

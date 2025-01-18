@@ -8,7 +8,11 @@ import { sendJsonMiddleware } from './middleware/send-json.js'
 import { sendPageMiddleware } from './middleware/send-page.js'
 import { sessionStoreMiddleware } from './middleware/session-store.js'
 import { errorHandler404, errorHandler500 } from './utils/error-handler.js'
-import { activateFileWatcher, hotReloadRoute } from './utils/hot-reload.js'
+import {
+  activateFileWatcher,
+  hotReloadRoute,
+  cleanupHotReload,
+} from './utils/hot-reload.js'
 import { serveStaticFile } from './utils/serve-static.js'
 
 const pagesDir = './pages'
@@ -70,6 +74,10 @@ export const createServer = (port, hostname) => {
       }
     },
   })
-
+  if (dev) {
+    server.stop = () => {
+      cleanupHotReload()
+    }
+  }
   return server
 }

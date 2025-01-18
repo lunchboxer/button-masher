@@ -2,6 +2,12 @@ import { watch } from 'node:fs/promises'
 
 globalThis.sseConnections = globalThis.sseConnections || new Set()
 
+const keepAliveInterval = setInterval(() => {
+  for (const connection of globalThis.sseConnections) {
+    connection.enqueue(': keep-alive\n\n') // Send a heartbeat message
+  }
+}, 60000)
+
 export const activateFileWatcher = () => {
   const watchDirs = ['./src/pages', './public', './src/components']
   for (const dir of watchDirs) {
@@ -64,4 +70,9 @@ export const hotReloadRoute = request => {
     return response
   }
   return null
+}
+
+export const cleanupHotReload = () => {
+  clearInterval(keepAliveInterval)
+  globalThis.sseConnections.clear()
 }

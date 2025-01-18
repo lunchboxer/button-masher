@@ -10,8 +10,8 @@ import { sessionStoreMiddleware } from './middleware/session-store.js'
 import { errorHandler404, errorHandler500 } from './utils/error-handler.js'
 import {
   activateFileWatcher,
-  hotReloadRoute,
   cleanupHotReload,
+  hotReloadRoute,
 } from './utils/hot-reload.js'
 import { serveStaticFile } from './utils/serve-static.js'
 

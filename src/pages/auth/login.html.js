@@ -70,7 +70,6 @@ export const POST = async (context, request) => {
 
     return redirect(context, redirectUrl)
   } catch (error) {
-    console.error('error', error)
     return context.sendPage(loginPage, {
       errors: { all: error.message },
     })

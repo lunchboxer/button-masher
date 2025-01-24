@@ -43,7 +43,7 @@ ${
 <li>
   <label for="navMenuCheckbox">
     <a href="/question-group">
-      Question Groups
+      Questions
     </a>
   </label>
 </li>

@@ -6,6 +6,7 @@ export const validators = {
   isRequired: value => value !== undefined && value !== null && value !== '',
   minLength: (value, min) => value && value.length >= min,
   maxLength: (value, max) => value && value.length <= max,
+  length: (value, length) => value && value.length === length,
   isEmail: value => value && emailRegex.test(value),
   isInArray: (value, array) => value && array.includes(value),
   isId: value => value && idRegex.test(value),
@@ -25,6 +26,10 @@ const validationRules = {
     validators.maxLength(value, ruleValue)
       ? null
       : `${fieldName} must be no more than ${ruleValue} characters.`,
+  length: (value, ruleValue, fieldName) =>
+    validators.length(value, ruleValue)
+      ? null
+      : `${fieldName} must be ${ruleValue} characters.`,
   email: (value, ruleValue, fieldName) =>
     ruleValue && !validators.isEmail(value)
       ? `${fieldName} must be a valid email address.`

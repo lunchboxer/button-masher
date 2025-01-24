@@ -23,7 +23,7 @@ CREATE TABLE question (
     question_text TEXT NOT NULL,
     question_group_id TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (question_group_id) REFERENCES question_group(id)
+    FOREIGN KEY (question_group_id) REFERENCES question_group(id) ON DELETE CASCADE
 );
 
 CREATE TABLE answer (

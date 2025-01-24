@@ -10,7 +10,7 @@ const title = 'Create Question Group'
 
 const content = ({ errors = {}, questionGroup = {} }) => html`
 
-<h1>Create Question Group</h1>
+<h2>Create Question Group</h2>
 
 <form method="POST">
   <label for="name-input">Name</label>
@@ -41,7 +41,7 @@ export const POST = context => {
   if (!isValid) {
     return context.sendPage(createQuestionGroupPage, {
       errors: validationErrors,
-      questinoGroup: context.body,
+      questionGroup: context.body,
     })
   }
   const { data: questionGroup, errors } = questionGroupModel.create(

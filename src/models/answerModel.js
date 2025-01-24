@@ -1,13 +1,16 @@
 import { camelToSnake, snakeToCamel } from '../utils/case-conversion.js'
-import { sanitizeObject } from '../utils/sanitize.js'
 import { db, generateId } from './db.js'
 import { queries } from './queryLoader.js'
 
 export const answerModel = {
-  list: () => {
-    const getAllStatement = db.query(queries.getAllAnswers)
-    const result = getAllStatement.all()
-    const answers = result.map(answer => snakeToCamel(sanitizeObject(answer)))
+  list: (questionId = null) => {
+    const query = questionId
+      ? queries.getAllAnswersByQuestionId
+      : queries.getAllAnswers
+    const parameters = questionId ? [questionId] : []
+    const getAllStatement = db.query(query)
+    const result = getAllStatement.all(...parameters)
+    const answers = result.map(answer => snakeToCamel(answer))
     return { data: answers }
   },
   get: id => {
@@ -16,7 +19,7 @@ export const answerModel = {
     }
     const getAnswerByIdStatement = db.query(queries.getAnswerById)
     const result = getAnswerByIdStatement.get(id)
-    const answer = snakeToCamel(sanitizeObject(result))
+    const answer = snakeToCamel(result)
     return {
       data: answer,
       errors: answer ? null : { all: 'Answer not found' },
@@ -29,8 +32,7 @@ export const answerModel = {
         return { ...uniqueErrors }
       }
       const id = generateId()
-      const sanitizedData = sanitizeObject(data)
-      const useableData = camelToSnake(sanitizedData)
+      const useableData = camelToSnake(data)
       db.query(queries.createAnswer).run({ ...useableData, id })
       return { data: { id } }
     } catch (error) {
@@ -45,18 +47,15 @@ export const answerModel = {
       return { errors: { all: 'Answer not found' } }
     }
 
-    const sanitizedUpdateData = sanitizeObject({ ...existingAnswer, ...data })
-    const uniqueErrors = answerModel._checkUniqueConstraints(
-      sanitizedUpdateData,
-      id,
-    )
+    const updateData = { ...existingAnswer, ...data }
+    const uniqueErrors = answerModel._checkUniqueConstraints(updateData, id)
     if (uniqueErrors) {
       return { ...uniqueErrors }
     }
 
     try {
-      db.query(queries.updateAnswerById).run(camelToSnake(sanitizedUpdateData))
-      return { data: { id } }
+      db.query(queries.updateAnswerById).run(camelToSnake(updateData))
+      return { data: updateData }
     } catch (error) {
       return { errors: { all: error.message } }
     }

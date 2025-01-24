@@ -1,16 +1,13 @@
-import { sanitizeObject } from '../utils/sanitize.js'
+import { snakeToCamel } from '../utils/case-conversion.js'
 import { db, generateId } from './db.js'
 import { queries } from './queryLoader.js'
+import { questionModel } from './questionModel.js'
 
 export const questionGroupModel = {
   list: () => {
     const getAllStatement = db.query(queries.getAllQuestionGroups)
-    const result = getAllStatement.all()
-    const questionGroups = result.map(questionGroup =>
-      sanitizeObject(questionGroup),
-    )
     return {
-      data: questionGroups,
+      data: getAllStatement.all(),
     }
   },
 
@@ -24,11 +21,13 @@ export const questionGroupModel = {
     }
     const getQuestionGroupByIdStatement = db.query(queries.getQuestionGroupById)
     const result = getQuestionGroupByIdStatement.get(id)
-    const questionGroup = sanitizeObject(result)
-    if (!questionGroup) {
+    if (!result) {
       return { errors: { all: 'Question group not found' } }
     }
-    return { data: questionGroup }
+
+    const { data: questions } = questionModel.list(id, true)
+    result.questions = questions
+    return { data: snakeToCamel(result) }
   },
 
   create: data => {
@@ -39,10 +38,8 @@ export const questionGroupModel = {
     }
     try {
       const id = generateId()
-      const sanitizedData = sanitizeObject(data)
       db.query(queries.createQuestionGroup).run({
-        description: null,
-        ...sanitizedData,
+        ...data,
         id,
       })
       return {
@@ -67,9 +64,8 @@ export const questionGroupModel = {
         return { errors: { name: 'Question group name already exists' } }
       }
     }
-    const sanitizedUpdateData = sanitizeObject(updateData)
     const updateStatement = db.query(queries.updateQuestionGroupById)
-    updateStatement.run(sanitizedUpdateData)
+    updateStatement.run(updateData)
     return { data: updateData }
   },
 

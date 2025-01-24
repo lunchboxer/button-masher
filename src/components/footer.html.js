@@ -25,7 +25,5 @@ export const footer = html`
     font-size: 0.7rem;
     margin-left: 1rem;
   }
-
-  footer
 </style>
 `

@@ -45,3 +45,31 @@ export const createQuestionGroupSchema = {
   name: { required: true, minLength: 3, maxLength: 50 },
   description: { required: false, maxLength: 1000 },
 }
+
+export const updateQuestionGroupSchema = createQuestionGroupSchema
+
+export const createQuestionSchema = {
+  questionText: { required: true, minLength: 3, maxLength: 500 },
+  questionGroupId: { required: false, length: 16 },
+}
+
+export const updateQuestionSchema = {
+  questionText: { required: true, minLength: 3, maxLength: 500 },
+  questionGroupId: { required: false, length: 16 },
+}
+
+export const updateAnswerSchema = {
+  answerText: { required: true, minLength: 1, maxLength: 100 },
+  isCorrect: { required: true, oneOf: [true, false] },
+  questionId: { required: true, length: 16 },
+}
+
+export const createAnswerSchema = {
+  answerText: { required: true, minLength: 1, maxLength: 100 },
+  isCorrect: { required: true, oneOf: [true, false] },
+  questionId: { required: true, length: 16 },
+}
+
+export const addQuestionWithAnswersSchema = {
+  questionText: { required: true, minLength: 3, maxLength: 500 },
+}

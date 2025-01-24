@@ -1,14 +1,11 @@
-import { readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import queriesSql from './queries.sql'
 
-const __dirname = new URL('.', import.meta.url).pathname
 const nameRegex = /^--\s*name:\s*(\w+)/
 
-function parseQueryFile(filePath) {
+function parseQueryFile(queryFile) {
   const queries = {}
-  const content = readFileSync(filePath, 'utf8')
 
-  const lines = content.split('\n')
+  const lines = queryFile.split('\n')
   let currentQueryName = null
   let currentQuery = []
 
@@ -34,7 +31,7 @@ function parseQueryFile(filePath) {
 
   // Throw an error if no queries were found
   if (Object.keys(queries).length === 0) {
-    throw new Error(`No queries found in file: ${filePath}`)
+    throw new Error(`No queries found in file: ${queryFile}`)
   }
 
   return queries
@@ -53,7 +50,7 @@ function createQueryProxy(queries) {
 }
 
 // Parse the queries.sql file
-const rawQueries = parseQueryFile(join(__dirname, 'queries.sql'))
+const rawQueries = parseQueryFile(queriesSql)
 
 // Wrap the queries object in a Proxy
 export const queries = createQueryProxy(rawQueries)

@@ -1,5 +1,6 @@
 [loader]
 ".svg" = "text"
+".sql" = "text"
 
 [test]
 preload = "./test/preload.js"

@@ -19,13 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
       localStorage.setItem('theme', 'dark')
     })
 
-  const deleteButton = document.getElementById('delete-user-button')
-  if (deleteButton) {
-    deleteButton.addEventListener('click', () => {
-      const deleteModal = document.getElementById('deleteModal')
-      if (deleteModal) {
-        deleteModal.showModal()
+  document.addEventListener('click', event => {
+    const openModalButton = event.target.closest('[data-open-modal]')
+    if (openModalButton) {
+      event.preventDefault()
+      const modalId = openModalButton.getAttribute('data-open-modal')
+      const modal = document.getElementById(modalId)
+      if (modal) {
+        modal.showModal()
       }
-    })
-  }
+    }
+  })
 })

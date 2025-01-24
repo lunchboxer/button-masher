@@ -72,7 +72,7 @@ describe('questionGroupModel', () => {
       insertGroup1()
 
       const result = questionGroupModel.get('1')
-      expect(result.data).toEqual(group1)
+      expect(result.data).toEqual({ ...group1, questions: [] })
     })
   })
 
@@ -140,7 +140,7 @@ describe('questionGroupModel', () => {
       insertGroup1()
 
       const result = questionGroupModel.remove('1')
-      expect(result.data).toEqual(group1)
+      expect(result.data).toEqual({ ...group1, questions: [] })
 
       const deletedGroup = db
         .query('SELECT * FROM question_group WHERE id = ?')

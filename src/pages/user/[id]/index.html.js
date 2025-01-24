@@ -22,10 +22,10 @@ const content = ({ selectedUser = {} }) => html`
 <div class="button-group start">
   <a class="button" href="/user/${selectedUser.id}/edit">Edit</a>
   <a href="/user/${selectedUser.id}/change-password" class="button">Change Password</a>
-  <button id="delete-user-button" class="button">Delete</button>
+  <button data-open-modal="deleteUserModal" class="button">Delete</button>
 </div>
 
-<dialog id="deleteModal">
+<dialog id="deleteUserModal">
   <h3>Confirm Delete</h3>
   <p>Are you sure you want to delete the user "${selectedUser.username}"? This action cannot be undone.</p>
   <form method="dialog">

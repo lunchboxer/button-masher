@@ -1,5 +1,4 @@
 import { camelToSnake, snakeToCamel } from '../utils/case-conversion.js'
-import { sanitizeObject } from '../utils/sanitize.js'
 import { answerModel } from './answerModel.js'
 import { db, generateId } from './db.js'
 import { queries } from './queryLoader.js'
@@ -10,13 +9,25 @@ export const questionModel = {
    * @returns {{data: Array<Object>|null, errors: Object|null}}
    * An object containing either an array of questions or an error
    */
-  list: () => {
-    const getAllStatement = db.query(queries.getAllQuestions)
-    const result = getAllStatement.all()
+  list: (questionGroupId = null, includeAnswers = false) => {
+    let query
+    if (includeAnswers) {
+      query = questionGroupId
+        ? queries.getAllQuestionsAndAnswersByQuestionGroupId
+        : queries.getAllQuestionsAndAnswers
+    } else {
+      query = questionGroupId
+        ? queries.getQuestionsByQuestionGroupId
+        : queries.getAllQuestions
+    }
+    const params = questionGroupId ? [questionGroupId] : []
+    const getAllStatement = db.query(query)
+    const result = getAllStatement.all(...params)
     const questions = result.map(question => {
-      const camelCaseQuestion = snakeToCamel(question)
-      const sanitizedQuestion = sanitizeObject(camelCaseQuestion)
-      return sanitizedQuestion
+      if (question.answers) {
+        question.answers = JSON.parse(question.answers)
+      }
+      return snakeToCamel(question)
     })
     return { data: questions }
   },
@@ -31,9 +42,11 @@ export const questionModel = {
     if (!id) {
       return { errors: { all: 'Missing id' } }
     }
-    const getQuestionByIdStatement = db.query(queries.getQuestionById)
-    const result = getQuestionByIdStatement.get(id)
-    const question = sanitizeObject(snakeToCamel(result))
+    const getQuestionStatement = db.query(queries.getQuestionAndAnswersById)
+    const result = getQuestionStatement.get(id)
+    result.answers = JSON.parse(result.answers)
+    const question = snakeToCamel(result)
+
     return {
       data: question,
       errors: question ? null : { all: 'Question not found' },
@@ -53,12 +66,11 @@ export const questionModel = {
       return { errors: { all: 'Question not found' } }
     }
 
-    const updateData = { ...existingQuestion, ...data }
-    const sanitizedUpdateData = sanitizeObject(camelToSnake(updateData))
+    const updateData = camelToSnake({ ...existingQuestion, ...data })
 
     try {
-      db.query(queries.updateQuestionById).run(sanitizedUpdateData)
-      return { data: sanitizeObject(updateData) }
+      db.query(queries.updateQuestionById).run(updateData)
+      return { data: snakeToCamel(updateData) }
     } catch (error) {
       return { errors: { all: error.message } }
     }
@@ -67,22 +79,17 @@ export const questionModel = {
   create: data => {
     const questionId = generateId()
     const snakeCaseData = camelToSnake({ questionGroupId: null, ...data })
-    const sanitizedData = sanitizeObject({
-      ...snakeCaseData,
-      id: questionId,
-    })
-
-    db.query(queries.createQuestion).run(sanitizedData)
-
-    // Create answers if provided
-    if (sanitizedData.answers && Array.isArray(sanitizedData.answers)) {
-      for (const [index, answer] of sanitizedData.answers.entries()) {
-        const { data } = answerModel.create({ ...answer, questionId })
-        sanitizedData.answers[index].id = data.id
+    db.query(queries.createQuestion).run({ ...snakeCaseData, id: questionId })
+    if (data.answers && Array.isArray(data.answers)) {
+      for (const [index, answer] of snakeCaseData.answers.entries()) {
+        const { data: createdAnswer } = answerModel.create({
+          ...answer,
+          questionId,
+        })
+        snakeCaseData.answers[index].id = createdAnswer.id
       }
     }
-
-    return { data: snakeToCamel(sanitizedData) }
+    return { data: snakeToCamel(snakeCaseData) }
   },
 
   /**
@@ -92,13 +99,13 @@ export const questionModel = {
    * An object containing either the deleted question or an error
    */
   remove: id => {
-    const existingQuestionResponse = questionModel.get(id)
-    if (!existingQuestionResponse.data) {
+    const { data: existingQuestion } = questionModel.get(id)
+    if (!existingQuestion) {
       return { errors: { all: 'Question not found' } }
     }
     try {
       db.query(queries.removeQuestionById).run(id)
-      return { data: existingQuestionResponse.data }
+      return { data: snakeToCamel(existingQuestion) }
     } catch (error) {
       return { errors: { all: error.message } }
     }

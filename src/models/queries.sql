@@ -81,8 +81,40 @@ SELECT id, question_text, question_group_id FROM question;
 -- name: getQuestionById
 SELECT id, question_text, question_group_id FROM question WHERE id = ?;
 
+-- name: getQuestionAndAnswersById
+SELECT
+    q.id AS id,
+    q.question_text,
+    q.question_group_id,
+    q.created_at AS created_at,
+    CASE
+        WHEN COUNT(a.id) = 0 THEN JSON_ARRAY()
+        ELSE JSON_GROUP_ARRAY(
+            JSON_OBJECT(
+                'id', a.id,
+                'answer_text', a.answer_text,
+                'is_correct', a.is_correct,
+                'created_at', a.created_at
+            )
+        )
+    END AS answers
+FROM
+    question q
+LEFT JOIN
+    answer a ON q.id = a.question_id
+WHERE
+    q.id = ?
+GROUP BY
+    q.id;
+
+-- name: getQuestionsByQuestionGroupId
+SELECT id, question_text, question_group_id FROM question WHERE question_group_id = ?;
+
 -- name: removeQuestionById
 DELETE FROM question WHERE id = ?;
+
+-- name: getQuestionsByQuestionGroupId
+SELECT id, question_text, question_group_id FROM question WHERE question_group_id = ?;
 
 -- name: createQuestion
 INSERT INTO question (id, question_text, question_group_id)
@@ -112,6 +144,58 @@ DELETE FROM answer WHERE id = ?;
 
 -- name: getAllQuestionsByQuestionGroupId
 SELECT id, question_text, question_group_id FROM question WHERE question_group_id = ?;
+
+-- name: getAllQuestionsAndAnswers
+SELECT
+    q.id AS id,
+    q.question_text,
+    q.created_at AS created_at,
+    CASE
+        WHEN COUNT(a.id) = 0 THEN '[]'
+        ELSE JSON_GROUP_ARRAY(
+            JSON_OBJECT(
+                'id', a.id,
+                'answer_text', a.answer_text,
+                'is_correct', a.is_correct,
+                'created_at', a.created_at
+            )
+        )
+    END AS answers
+FROM
+    question q
+LEFT JOIN
+    answer a ON q.id = a.question_id
+GROUP BY
+    q.id
+ORDER BY
+    q.created_at;
+
+-- name: getAllQuestionsAndAnswersByQuestionGroupId
+SELECT
+    q.id AS id,
+    q.question_text,
+    q.created_at AS created_at,
+    CASE
+        WHEN COUNT(a.id) = 0 THEN '[]'
+        ELSE JSON_GROUP_ARRAY(
+            JSON_OBJECT(
+                'id', a.id,
+                'answer_text', a.answer_text,
+                'is_correct', a.is_correct,
+                'created_at', a.created_at
+            )
+        )
+    END AS answers
+FROM
+    question q
+LEFT JOIN
+    answer a ON q.id = a.question_id
+WHERE
+    q.question_group_id = ?
+GROUP BY
+    q.id
+ORDER BY
+    q.created_at;
 
 -- name: getAllAnswersByQuestionId
 SELECT id, question_id, answer_text, is_correct FROM answer WHERE question_id = ?;

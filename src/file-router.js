@@ -28,7 +28,7 @@ export async function createRouteMap(pagesDir) {
     let route = pagePath.replace(htmlJsRegex, '').replace(jsRegex, '')
 
     // Handle `index` routes
-    if (fileName === 'index.html.js') {
+    if (fileName === 'index.html.js' || fileName === 'index.js') {
       route = route.replace(indexRegex, '')
     }
 
@@ -67,6 +67,13 @@ export async function resolveRoute(routeMap, pagesDir, request) {
   const url = new URL(request.url)
   let route = url.pathname
 
+  const parameters = {}
+
+  // Add query parameters to the parameters object
+  url.searchParams.forEach((value, key) => {
+    parameters[key] = value
+  })
+
   // Normalize the route
   if (route.endsWith('/') && route !== '/') {
     route = route.slice(0, -1) // Remove trailing slash
@@ -77,7 +84,7 @@ export async function resolveRoute(routeMap, pagesDir, request) {
     const { path } = routeMap.get(route)
     const module = await import(`${pagesDir}/${path}`)
     const method = request.method.toUpperCase()
-    return { module, method, parameters: {} }
+    return { module, method, parameters }
   }
 
   // Check for parameterized routes
@@ -98,11 +105,9 @@ export async function resolveRoute(routeMap, pagesDir, request) {
     // Test if the route matches the regex
     const match = route.match(regex)
     if (match) {
-      const parameters = {}
       keys.forEach((key, index) => {
         parameters[key] = match[index + 1] // match[0] is the full match
       })
-
       const module = await import(`${pagesDir}/${path}`)
       const method = request.method.toUpperCase()
       return { module, method, parameters }

@@ -6,6 +6,7 @@ import { parseBody } from './middleware/parse-body.js'
 import { secureHeadersMiddleware } from './middleware/secure-headers.js'
 import { sendJsonMiddleware } from './middleware/send-json.js'
 import { sendPageMiddleware } from './middleware/send-page.js'
+import { sendSseMiddleware } from './middleware/send-sse.js'
 import { sessionStoreMiddleware } from './middleware/session-store.js'
 import { errorHandler404, errorHandler500 } from './utils/error-handler.js'
 import {
@@ -58,6 +59,7 @@ export const createServer = (port, hostname) => {
         await authMiddleware(context, request)
         sendPageMiddleware(context)
         sendJsonMiddleware(context)
+        sendSseMiddleware(context)
 
         const resolved = await resolveRoute(routeMap, pagesDir, request)
         if (resolved) {

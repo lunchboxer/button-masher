@@ -1,6 +1,5 @@
 import { passwordDots } from '../../components/password-dots.html.js'
 import { userModel } from '../../models/userModel.js'
-import { setAlert } from '../../utils/alert.js'
 import { generateValidPassword } from '../../utils/generate-student-password.js'
 import { html } from '../../utils/html.js'
 import { redirect } from '../../utils/redirect.js'
@@ -60,7 +59,10 @@ export const POST = async (context, _request) => {
     createStudentSchema,
   )
   if (!isValid) {
-    return context.sendPage(createStudentPage, { errors: validationErrors })
+    return context.sendPage(createStudentPage, {
+      ...context.body,
+      errors: validationErrors,
+    })
   }
 
   const newUserData = {
@@ -76,8 +78,7 @@ export const POST = async (context, _request) => {
       errors,
     })
   }
-  setAlert(
-    context,
+  context.setAlert(
     `Student "${context.body?.name}" added successfully.`,
     'success',
   )

@@ -60,13 +60,13 @@ export const updateQuestionSchema = {
 
 export const updateAnswerSchema = {
   answerText: { required: true, minLength: 1, maxLength: 100 },
-  isCorrect: { required: true, oneOf: [true, false] },
+  isCorrect: { required: true, oneOf: [true, false, '0', '1'] },
   questionId: { required: true, length: 16 },
 }
 
 export const createAnswerSchema = {
   answerText: { required: true, minLength: 1, maxLength: 100 },
-  isCorrect: { required: true, oneOf: [true, false] },
+  isCorrect: { required: true, oneOf: [true, false, '0', '1'] },
   questionId: { required: true, length: 16 },
 }
 

@@ -1,5 +1,4 @@
 import { questionGroupModel } from '../../models/questionGroupModel.js'
-import { setAlert } from '../../utils/alert.js'
 import { html } from '../../utils/html.js'
 import { redirect } from '../../utils/redirect.js'
 import { createQuestionGroupSchema } from '../../utils/validation-schemas.js'
@@ -53,8 +52,7 @@ export const POST = context => {
       questionGroup: context.body,
     })
   }
-  setAlert(
-    context,
+  context.setAlert(
     `Question group "${context.body.name}" created successfully.`,
   )
   return redirect(context, `/question-group/${questionGroup.id}`)

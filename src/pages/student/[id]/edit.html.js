@@ -1,6 +1,5 @@
 import { passwordDots } from '../../../components/password-dots.html.js'
 import { userModel } from '../../../models/userModel.js'
-import { setAlert } from '../../../utils/alert.js'
 import { html } from '../../../utils/html.js'
 import { redirect } from '../../../utils/redirect.js'
 import { updateStudentSchema } from '../../../utils/validation-schemas.js'
@@ -53,35 +52,21 @@ export const GET = (context, _request, parameters) => {
 }
 
 export const POST = async (context, _request, parameters) => {
-  const { data: student, errors: userErrors } = userModel.get(parameters.id)
-  if (userErrors) {
-    const error = new Error(userErrors.all)
-    error.status = 404
-    throw error
-  }
   const { isValid, errors: validationErrors } = validate(
     { ...context.body, id: parameters.id },
     updateStudentSchema,
   )
   if (!isValid) {
-    return context.sendPage(editStudentPage, {
-      errors: validationErrors,
-      student,
-    })
+    context.setErrors(validationErrors)
+    return redirect(context, `/student/${parameters.id}/edit`)
   }
   const updateData = { ...context.body, username: context.body.password }
   const { errors } = await userModel.update(parameters.id, updateData)
   if (errors) {
-    const { data: student, errors: userErrors } = userModel.get(parameters.id)
-    if (userErrors) {
-      const error = new Error(userErrors.all)
-      error.status = 404
-      throw error
-    }
-    return context.sendPage(editStudentPage, { student, errors })
+    context.setErrors(errors)
+    return redirect(context, `/student/${parameters.id}/edit`)
   }
-  setAlert(
-    context,
+  context.setAlert(
     `Student "${context.body.name}" updated successfully.`,
     'success',
   )

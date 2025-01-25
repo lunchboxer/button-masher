@@ -1,5 +1,4 @@
 import { questionGroupModel } from '../../../models/questionGroupModel.js'
-import { setAlert } from '../../../utils/alert.js'
 import { html } from '../../../utils/html.js'
 import { redirect } from '../../../utils/redirect.js'
 import { updateQuestionGroupSchema } from '../../../utils/validation-schemas.js'
@@ -41,32 +40,23 @@ export const GET = (context, _request, parameters) => {
 }
 
 export const POST = (context, _request, parameters) => {
-  const { data: questionGroup, errors: questionGroupErrors } =
-    questionGroupModel.get(parameters.id)
-  if (questionGroupErrors) {
-    const error = new Error(questionGroupErrors.all)
-    error.status = 404
-    throw error
-  }
   const { isValid, errors: validationErrors } = validate(
     { ...context.body, id: parameters.id },
     updateQuestionGroupSchema,
   )
   if (!isValid) {
-    return context.sendPage(editQuestionGroupPage, {
-      errors: validationErrors,
-      questionGroup,
-    })
+    context.setErrors(validationErrors)
+    return redirect(context, `/question-group/${parameters.id}/edit`)
   }
-  const { errors } = questionGroupModel.update(parameters.id, context.body)
-  if (errors) {
-    return context.sendPage(editQuestionGroupPage, {
-      questionGroup: context.body,
-      errors,
-    })
+  const { errors: updateErrors } = questionGroupModel.update(
+    parameters.id,
+    context.body,
+  )
+  if (updateErrors) {
+    context.setErrors(updateErrors)
+    return redirect(context, `/question-group/${parameters.id}/edit`)
   }
-  setAlert(
-    context,
+  context.setAlert(
     `Question group "${context.body.name}" updated successfully.`,
     'success',
   )

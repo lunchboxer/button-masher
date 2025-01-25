@@ -1,7 +1,7 @@
 import { createRouteMap, resolveRoute } from './file-router.js'
-import { alertMiddleware } from './middleware/alert.js'
 import { applyRouteProtections } from './middleware/apply-route-protections.js'
 import { authMiddleware } from './middleware/auth.js'
+import { extendContext } from './middleware/context-errors.js'
 import { parseBody } from './middleware/parse-body.js'
 import { secureHeadersMiddleware } from './middleware/secure-headers.js'
 import { sendJsonMiddleware } from './middleware/send-json.js'
@@ -53,8 +53,8 @@ export const createServer = (port, hostname) => {
       }
 
       try {
-        alertMiddleware(context, request)
         sessionStoreMiddleware(context, request)
+        extendContext(context)
         await parseBody(context, request)
         await authMiddleware(context, request)
         sendPageMiddleware(context)

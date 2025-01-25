@@ -1,5 +1,4 @@
 import { userModel } from '../../../models/userModel.js'
-import { setAlert } from '../../../utils/alert.js'
 import { passwordMatches } from '../../../utils/crypto.js'
 import { html } from '../../../utils/html.js'
 import { redirect } from '../../../utils/redirect.js'
@@ -138,15 +137,13 @@ export const POST = async (context, _request, parameters) => {
     })
   }
   if (context.user.id === parameters.id) {
-    setAlert(
-      context,
+    context.setAlert(
       'You have been logged out. Please log in with your new password.',
       'success',
     )
     return redirect(context, '/auth/logout')
   }
-  setAlert(
-    context,
+  context.setAlert(
     `You've successfully changed "${existingUser.username}"'s password.`,
     'success',
   )

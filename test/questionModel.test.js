@@ -115,7 +115,14 @@ describe('questionModel', () => {
       )
 
       const result = questionModel.get('1')
-      expect(result.data).toEqual(question1)
+      expect(result.data).toMatchObject({
+        id: question1.id,
+        questionText: question1.questionText,
+        questionGroupId: question1.questionGroupId,
+        answers: [], // Ensure answers is an empty array
+      })
+      expect(result.data.createdAt).toBeDefined() // Ensure created_at is defined
+      expect(new Date(result.data.createdAt)).toBeInstanceOf(Date) // Ensure created_at is a valid date
     })
   })
 

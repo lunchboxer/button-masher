@@ -4,8 +4,13 @@ export function sendPageMiddleware(context) {
   context.sendPage = (pageFunction, data) => {
     const headers = new Headers(context.headers)
     headers.set('content-type', 'text/html')
-    const { user, alert, nonce } = context
-    const templateData = { user, alert, dev, nonce, ...data }
+    const alert = context.getAlert()
+    const { user, nonce } = context
+    // Individual errors from the data object take precedence over errors from the session
+    const sessionErrors = context.getErrors()
+    const dataErrors = data?.errors
+    const errors = { ...sessionErrors, ...dataErrors }
+    const templateData = { user, alert, dev, nonce, ...data, errors }
     const html = pageFunction(templateData)
     return new Response(html, { status: 200, headers })
   }

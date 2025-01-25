@@ -39,11 +39,12 @@ export const questionGroupModel = {
     try {
       const id = generateId()
       db.query(queries.createQuestionGroup).run({
+        description: null,
         ...data,
         id,
       })
       return {
-        data: { id },
+        data: { ...data, id },
       }
     } catch (error) {
       return {

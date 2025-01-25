@@ -2,6 +2,18 @@ import { camelToSnake, snakeToCamel } from '../utils/case-conversion.js'
 import { db, generateId } from './db.js'
 import { queries } from './queryLoader.js'
 
+const trimObject = obj => {
+  const trimmedObj = {}
+  for (const key in obj) {
+    if (typeof obj[key] === 'string') {
+      trimmedObj[key] = obj[key].trim()
+    } else {
+      trimmedObj[key] = obj[key]
+    }
+  }
+  return trimmedObj
+}
+
 export const answerModel = {
   list: (questionId = null) => {
     const query = questionId
@@ -33,7 +45,8 @@ export const answerModel = {
       }
       const id = generateId()
       const useableData = camelToSnake(data)
-      db.query(queries.createAnswer).run({ ...useableData, id })
+      const trimmedData = trimObject(useableData)
+      db.query(queries.createAnswer).run({ ...trimmedData, id })
       return { data: { id } }
     } catch (error) {
       console.error('error', error)
@@ -47,7 +60,7 @@ export const answerModel = {
       return { errors: { all: 'Answer not found' } }
     }
 
-    const updateData = { ...existingAnswer, ...data }
+    const updateData = trimObject({ ...existingAnswer, ...data })
     const uniqueErrors = answerModel._checkUniqueConstraints(updateData, id)
     if (uniqueErrors) {
       return { ...uniqueErrors }

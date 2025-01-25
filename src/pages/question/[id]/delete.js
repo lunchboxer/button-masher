@@ -1,15 +1,13 @@
 import { questionModel } from '../../../models/questionModel.js'
-import { setAlert } from '../../../utils/alert.js'
 import { redirect } from '../../../utils/redirect.js'
 
 export const POST = (context, _request, parameters) => {
   const { data: question, errors } = questionModel.remove(parameters.id)
   if (errors) {
-    setAlert(context, errors.all, 'error')
+    context.setErrors(errors)
     return redirect(context, parameters.referrer)
   }
-  setAlert(
-    context,
+  context.setAlert(
     `Question "${question.questionText}" removed successfully.`,
     'success',
   )

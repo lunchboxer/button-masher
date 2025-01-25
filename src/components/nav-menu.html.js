@@ -47,6 +47,13 @@ ${
     </a>
   </label>
 </li>
+<li>
+  <label for="navMenuCheckbox">
+    <a href="/session">
+      Sessions
+    </a>
+  </label>
+</li>
 `
 }
 <li class="section-title">

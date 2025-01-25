@@ -44,13 +44,13 @@ export const questionModel = {
     }
     const getQuestionStatement = db.query(queries.getQuestionAndAnswersById)
     const result = getQuestionStatement.get(id)
+    if (!result) {
+      return { errors: { all: 'Question not found' } }
+    }
     result.answers = JSON.parse(result.answers)
     const question = snakeToCamel(result)
 
-    return {
-      data: question,
-      errors: question ? null : { all: 'Question not found' },
-    }
+    return { data: question }
   },
 
   /**
@@ -77,14 +77,14 @@ export const questionModel = {
   },
 
   create: data => {
-    const questionId = generateId()
-    const snakeCaseData = camelToSnake({ questionGroupId: null, ...data })
-    db.query(queries.createQuestion).run({ ...snakeCaseData, id: questionId })
+    const id = generateId()
+    const snakeCaseData = camelToSnake({ questionGroupId: null, id, ...data })
+    db.query(queries.createQuestion).run(snakeCaseData)
     if (data.answers && Array.isArray(data.answers)) {
       for (const [index, answer] of snakeCaseData.answers.entries()) {
         const { data: createdAnswer } = answerModel.create({
           ...answer,
-          questionId,
+          questionId: id,
         })
         snakeCaseData.answers[index].id = createdAnswer.id
       }

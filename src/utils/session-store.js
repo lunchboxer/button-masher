@@ -26,6 +26,23 @@ export class SessionStore {
   list() {
     return Array.from(this.store.entries())
   }
+
+  flash(sessionId, key, value) {
+    const sessionData = this.store.get(sessionId) || {}
+    sessionData[key] = value
+    this.store.set(sessionId, sessionData)
+  }
+
+  getFlash(sessionId, key) {
+    const sessionData = this.store.get(sessionId)
+    if (sessionData && sessionData[key] !== undefined) {
+      const value = sessionData[key]
+      delete sessionData[key] // Clear the flash data
+      this.store.set(sessionId, sessionData) // Update the session
+      return value
+    }
+    return null
+  }
 }
 
 // Singleton instance of the session store

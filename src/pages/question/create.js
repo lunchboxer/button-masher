@@ -1,6 +1,5 @@
 import { questionForm } from '../../components/question-form.html.js'
 import { questionModel } from '../../models/questionModel.js'
-import { setAlert } from '../../utils/alert.js'
 import { html } from '../../utils/html.js'
 import { redirect } from '../../utils/redirect.js'
 import { addQuestionWithAnswersSchema } from '../../utils/validation-schemas.js'
@@ -70,7 +69,7 @@ export const POST = (context, _request, parameters) => {
     })
   }
 
-  setAlert(context, 'Question added', 'success')
+  context.setAlert('Question added', 'success')
   const referrer = parameters.referrer || '/question/'
   return redirect(context, referrer)
 }

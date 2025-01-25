@@ -1,5 +1,4 @@
 import { userModel } from '../../models/userModel.js'
-import { setAlert } from '../../utils/alert.js'
 import { setCookie } from '../../utils/cookies.js'
 import { generateJwt, passwordMatches } from '../../utils/crypto.js'
 import { html } from '../../utils/html.js'
@@ -36,7 +35,7 @@ export const loginPage = data => layout({ title, content, data, headExtras })
 
 export const GET = (context, _request) => {
   if (context.user) {
-    setAlert(context, 'You are already logged in')
+    context.setAlert('You are already logged in')
     return redirect(context, '/')
   }
   return context.sendPage(loginPage)
@@ -66,7 +65,7 @@ export const POST = async (context, request) => {
     const token = await generateJwt({ id: user.id }, process.env.JWT_SECRET)
 
     setCookie(context, 'auth', token)
-    setAlert(context, `You're now logged in as ${user.username}!`, 'success')
+    context.setAlert(`You're now logged in as ${user.username}!`, 'success')
 
     return redirect(context, redirectUrl)
   } catch (error) {

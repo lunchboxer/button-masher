@@ -199,3 +199,58 @@ ORDER BY
 
 -- name: getAllAnswersByQuestionId
 SELECT id, question_id, answer_text, is_correct FROM answer WHERE question_id = ?;
+
+-- name: getAllSessions
+SELECT id, leader_id, access_code, question_group_id, start_time, end_time, created_at FROM session;
+
+-- name: getAllSessions
+SELECT
+  s.id,
+  s.created_at,
+  s.start_time,
+  s.access_code,
+  s.end_time,
+  s.question_group_id,
+  s.leader_id,
+  qg.name AS question_group_name,
+  u.username AS leader_username -- or u.name AS leader_name
+FROM
+  session s
+JOIN
+  question_group qg ON s.question_group_id = qg.id
+JOIN
+  user u ON s.leader_id = u.id
+ORDER BY
+  s.created_at DESC;
+
+-- name: getSessionById
+SELECT id, leader_id, access_code, question_group_id, start_time, end_time, created_at FROM session WHERE id = ?;
+
+-- name: createSession
+INSERT INTO session (id, leader_id, access_code, question_group_id, start_time)
+VALUES ($id, $leader_id, $access_code, $question_group_id, $start_time);
+
+-- name: updateSessionById
+UPDATE session SET leader_id = $leader_id, access_code = $access_code, question_group_id = $question_group_id, start_time = $start_time, end_time = $end_time WHERE id = $id;
+
+-- name: removeSessionById
+DELETE FROM session WHERE id = ?;
+
+-- name: createResponse
+INSERT INTO response (id, user_id, session_id, question_id, answer_id)
+VALUES ($id, $user_id, $session_id, $question_id, $answer_id);
+
+-- name: getResponsesBySessionId
+SELECT id, user_id, session_id, question_id, answer_id, responded_at FROM response WHERE session_id = ?;
+
+-- name: getAllResponses
+SELECT id, user_id, session_id, question_id, answer_id, responded_at FROM response;
+
+-- name: getResponseById
+SELECT id, user_id, session_id, question_id, answer_id, responded_at FROM response WHERE id = ?;
+
+-- name: removeResponseById
+DELETE FROM response WHERE id = ?;
+
+-- name: getResponsesBySessionId
+SELECT id, user_id, session_id, question_id, answer_id, responded_at FROM response WHERE session_id = ?;

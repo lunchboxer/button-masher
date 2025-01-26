@@ -40,8 +40,8 @@ CREATE TABLE session (
     leader_id TEXT NOT NULL,
     access_code TEXT NOT NULL UNIQUE, -- Unique 5-character code for accessing the session
     question_group_id INTEGER NOT NULL,
-    start_time DATETIME NOT NULL,
-    end_time DATETIME NOT NULL,
+    start_time DATETIME,
+    end_time DATETIME,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (leader_id) REFERENCES user(id),
     FOREIGN KEY (question_group_id) REFERENCES question_group(id)
@@ -54,8 +54,8 @@ CREATE TABLE response (
     question_id TEXT NOT NULL, -- The question being answered
     answer_id TEXT NOT NULL, -- The answer selected by the user
     responded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES user(id),
-    FOREIGN KEY (session_id) REFERENCES session(id),
-    FOREIGN KEY (question_id) REFERENCES question(id),
-    FOREIGN KEY (answer_id) REFERENCES answer(id)
+    FOREIGN KEY (user_id) REFERENCES user(id) ON DELETE CASCADE,
+    FOREIGN KEY (session_id) REFERENCES session(id) ON DELETE CASCADE,
+    FOREIGN KEY (question_id) REFERENCES question(id) ON DELETE CASCADE,
+    FOREIGN KEY (answer_id) REFERENCES answer(id) ON DELETE CASCADE
 );

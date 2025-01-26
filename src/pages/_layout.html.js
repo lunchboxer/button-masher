@@ -27,7 +27,7 @@ export const layout = ({ title, headExtras, content, data }) => html`
   ${navMenu(data)}
   <main>
     ${alertComponent({ errors: data.errors, alert: data.alert })}
-    ${content(data)}
+    ${typeof content === 'function' ? content(data) : content}
   </main>
 
   ${footer}

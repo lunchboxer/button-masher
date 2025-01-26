@@ -1,4 +1,4 @@
-import { readdirSync, statSync, readFileSync, writeFileSync } from 'node:fs'
+import { readFileSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 // Define the directory to start searching from (e.g., 'src')
@@ -17,7 +17,7 @@ const extensionRegex = /\.(js|ts|jsx|tsx)$/
 
 // Function to recursively process files in a directory
 function processDirectory(directory) {
-  console.log(`Processing directory: ${directory}`)
+  console.info(`Processing directory: ${directory}`)
 
   const files = readdirSync(directory)
 
@@ -32,7 +32,7 @@ function processDirectory(directory) {
         processDirectory(filePath)
       } else if (stat.isFile() && extensionRegex.test(file)) {
         // Process JavaScript or TypeScript files
-        console.log(`Processing file: ${filePath}`)
+        console.info(`Processing file: ${filePath}`)
         replaceImportsInFile(filePath)
       }
     } catch (error) {
@@ -54,14 +54,8 @@ function replaceImportsInFile(filePath) {
       'g',
     )
 
-    // Check if the regex matches anything
-    const matches = content.match(importRegex)
-    if (matches) {
-      console.log(`Matches for ${dir} in ${filePath}:`, matches)
-    }
-
     // Replace import paths using regex
-    content = content.replace(importRegex, (match, p1, p2, p3) => {
+    content = content.replace(importRegex, (_match, p1, _p2, p3) => {
       hasChanges = true
       // Replace the path with '$/dir/'
       return `${p1}$/${dir}/${p3}`

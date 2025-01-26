@@ -48,7 +48,11 @@
       "include": ["**/*.html"]
     },
     {
-      "include": ["test/answerModel.test.js"],
+      "include": [
+        "test/answerModel.test.js",
+        "test/responseModel.test.js",
+        "test/sessionModel.test.js"
+      ],
       "linter": {
         "rules": {
           "style": {

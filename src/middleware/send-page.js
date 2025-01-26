@@ -11,6 +11,9 @@ export function sendPageMiddleware(context) {
     const dataErrors = data?.errors
     const errors = { ...sessionErrors, ...dataErrors }
     const templateData = { user, alert, dev, nonce, ...data, errors }
+    if (typeof pageFunction !== 'function') {
+      return new Response(pageFunction, { status: 200, headers })
+    }
     const html = pageFunction(templateData)
     return new Response(html, { status: 200, headers })
   }

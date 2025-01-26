@@ -1,6 +1,6 @@
-import { passwordDots } from '../../components/password-dots.html.js'
-import { userModel } from '../../models/userModel.js'
-import { html } from '../../utils/html.js'
+import { passwordDots } from '$/components/password-dots.html.js'
+import { userModel } from '$/models/userModel.js'
+import { html } from '$/utils/html.js'
 import { layout } from '../_layout.html.js'
 
 const title = 'Students'

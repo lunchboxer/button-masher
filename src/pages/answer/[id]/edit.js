@@ -1,7 +1,7 @@
-import { answerModel } from '../../../models/answerModel.js'
-import { redirect } from '../../../utils/redirect.js'
-import { updateAnswerSchema } from '../../../utils/validation-schemas.js'
-import { validate } from '../../../utils/validation.js'
+import { answerModel } from '$/models/answerModel.js'
+import { redirect } from '$/utils/redirect.js'
+import { updateAnswerSchema } from '$/utils/validation-schemas.js'
+import { validate } from '$/utils/validation.js'
 
 export const POST = (context, _request, parameters) => {
   const { id } = parameters

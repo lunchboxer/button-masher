@@ -1,8 +1,8 @@
-import { questionGroupModel } from '../../../models/questionGroupModel.js'
-import { html } from '../../../utils/html.js'
-import { redirect } from '../../../utils/redirect.js'
-import { updateQuestionGroupSchema } from '../../../utils/validation-schemas.js'
-import { validate } from '../../../utils/validation.js'
+import { questionGroupModel } from '$/models/questionGroupModel.js'
+import { html } from '$/utils/html.js'
+import { redirect } from '$/utils/redirect.js'
+import { updateQuestionGroupSchema } from '$/utils/validation-schemas.js'
+import { validate } from '$/utils/validation.js'
 import { layout } from '../../_layout.html.js'
 
 const title = 'Edit Question Group'

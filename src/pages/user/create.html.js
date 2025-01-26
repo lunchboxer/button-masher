@@ -1,8 +1,8 @@
-import { userModel } from '../../models/userModel.js'
-import { html } from '../../utils/html.js'
-import { redirect } from '../../utils/redirect.js'
-import { createUserSchema } from '../../utils/validation-schemas.js'
-import { validate } from '../../utils/validation.js'
+import { userModel } from '$/models/userModel.js'
+import { html } from '$/utils/html.js'
+import { redirect } from '$/utils/redirect.js'
+import { createUserSchema } from '$/utils/validation-schemas.js'
+import { validate } from '$/utils/validation.js'
 import { layout } from '../_layout.html.js'
 
 const title = 'Add a User'

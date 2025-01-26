@@ -1,7 +1,7 @@
-import { questionListItem } from '../../../components/question-list-item.html.js'
-import { questionGroupModel } from '../../../models/questionGroupModel.js'
-import { html } from '../../../utils/html.js'
-import { sanitizeObject } from '../../../utils/sanitize.js'
+import { questionListItem } from '$/components/question-list-item.html.js'
+import { questionGroupModel } from '$/models/questionGroupModel.js'
+import { html } from '$/utils/html.js'
+import { sanitizeObject } from '$/utils/sanitize.js'
 import { layout } from '../../_layout.html.js'
 
 const title = 'Question Group'

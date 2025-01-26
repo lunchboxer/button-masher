@@ -1,5 +1,5 @@
-import { questionGroupModel } from '../../../models/questionGroupModel.js'
-import { redirect } from '../../../utils/redirect.js'
+import { questionGroupModel } from '$/models/questionGroupModel.js'
+import { redirect } from '$/utils/redirect.js'
 
 export const POST = (context, _request, parameters) => {
   const { data: questionGroup, errors } = questionGroupModel.remove(

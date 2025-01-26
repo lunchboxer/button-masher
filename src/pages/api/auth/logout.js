@@ -1,5 +1,5 @@
-import { setCookie } from '../../../utils/cookies.js'
-import { sessionStore } from '../../../utils/session-store.js'
+import { setCookie } from '$/utils/cookies.js'
+import { sessionStore } from '$/utils/session-store.js'
 
 export const POST = context => {
   const sessionId = context.sessionId

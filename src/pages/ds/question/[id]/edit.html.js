@@ -1,6 +1,6 @@
-import { questionModel } from '../../../../models/questionModel.js'
-import { html } from '../../../../utils/html.js'
-import { mergeFragments, mergeSignals } from '../../../../utils/sse-helpers.js'
+import { questionModel } from '$/models/questionModel.js'
+import { html } from '$/utils/html.js'
+import { mergeFragments, mergeSignals } from '$/utils/sse-helpers.js'
 
 const questionEditForm = ({ question = {}, errors = {} }) => html`
 

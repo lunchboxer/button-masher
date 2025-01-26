@@ -1,5 +1,5 @@
-import { answerModel } from '../../../models/answerModel.js'
-import { redirect } from '../../../utils/redirect.js'
+import { answerModel } from '$/models/answerModel.js'
+import { redirect } from '$/utils/redirect.js'
 
 export const POST = (context, _request, parameters) => {
   const { id, questionId } = parameters

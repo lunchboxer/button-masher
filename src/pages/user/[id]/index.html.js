@@ -1,5 +1,5 @@
-import { userModel } from '../../../models/userModel.js'
-import { html } from '../../../utils/html.js'
+import { userModel } from '$/models/userModel.js'
+import { html } from '$/utils/html.js'
 import { layout } from '../../_layout.html.js'
 
 const title = 'User Details'

@@ -1,6 +1,6 @@
-import { setCookie } from '../../utils/cookies.js'
-import { redirect } from '../../utils/redirect.js'
-import { sessionStore } from '../../utils/session-store.js'
+import { setCookie } from '$/utils/cookies.js'
+import { redirect } from '$/utils/redirect.js'
+import { sessionStore } from '$/utils/session-store.js'
 
 export const GET = context => {
   const sessionId = context.sessionId

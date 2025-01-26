@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js'
+import { html } from '$/utils/html.js'
 import { layout } from '../_layout.html.js'
 
 const title = 'Create Session'

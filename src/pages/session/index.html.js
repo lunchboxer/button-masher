@@ -1,7 +1,7 @@
-import { questionGroupModel } from '../../models/questionGroupModel.js'
-import { sessionModel } from '../../models/sessionModel.js'
-import { html } from '../../utils/html.js'
-import { redirect } from '../../utils/redirect.js'
+import { questionGroupModel } from '$/models/questionGroupModel.js'
+import { sessionModel } from '$/models/sessionModel.js'
+import { html } from '$/utils/html.js'
+import { redirect } from '$/utils/redirect.js'
 import { layout } from '../_layout.html.js'
 
 const title = 'Sessions'

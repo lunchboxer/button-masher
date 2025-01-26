@@ -1,14 +1,14 @@
-import { questionForm } from '../../../../components/question-form.html.js'
-import { questionListItem } from '../../../../components/question-list-item.html.js'
-import { questionModel } from '../../../../models/questionModel.js'
-import { html } from '../../../../utils/html.js'
+import { questionForm } from '$/components/question-form.html.js'
+import { questionListItem } from '$/components/question-list-item.html.js'
+import { questionModel } from '$/models/questionModel.js'
+import { html } from '$/utils/html.js'
 import {
   mergeFragments,
   mergeSignals,
   setSseHeaders,
 } from '../../../../utils/sse-helpers.js'
-import { createQuestionSchema } from '../../../../utils/validation-schemas.js'
-import { validate } from '../../../../utils/validation.js'
+import { createQuestionSchema } from '$/utils/validation-schemas.js'
+import { validate } from '$/utils/validation.js'
 
 const selector = '#question-form'
 

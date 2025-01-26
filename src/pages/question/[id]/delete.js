@@ -1,5 +1,5 @@
-import { questionModel } from '../../../models/questionModel.js'
-import { redirect } from '../../../utils/redirect.js'
+import { questionModel } from '$/models/questionModel.js'
+import { redirect } from '$/utils/redirect.js'
 
 export const POST = (context, _request, parameters) => {
   const { data: question, errors } = questionModel.remove(parameters.id)

@@ -1,8 +1,8 @@
-import { userModel } from '../../../models/userModel.js'
-import { setCookie } from '../../../utils/cookies.js'
-import { generateJwt, passwordMatches } from '../../../utils/crypto.js'
-import { loginSchema } from '../../../utils/validation-schemas.js'
-import { validate } from '../../../utils/validation.js'
+import { userModel } from '$/models/userModel.js'
+import { setCookie } from '$/utils/cookies.js'
+import { generateJwt, passwordMatches } from '$/utils/crypto.js'
+import { loginSchema } from '$/utils/validation-schemas.js'
+import { validate } from '$/utils/validation.js'
 
 export const POST = async context => {
   const { errors, isValid } = validate(context.body, loginSchema)

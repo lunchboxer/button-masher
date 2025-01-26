@@ -1,5 +1,5 @@
-import { userModel } from '../../../models/userModel.js'
-import { redirect } from '../../../utils/redirect.js'
+import { userModel } from '$/models/userModel.js'
+import { redirect } from '$/utils/redirect.js'
 
 export const POST = (context, _request, parameters) => {
   const { data: student, errors } = userModel.remove(parameters.id)

@@ -1,8 +1,8 @@
-import { userModel } from '../../models/userModel.js'
-import { setCookie } from '../../utils/cookies.js'
-import { generateJwt } from '../../utils/crypto.js'
-import { html } from '../../utils/html.js'
-import { redirect } from '../../utils/redirect.js'
+import { userModel } from '$/models/userModel.js'
+import { setCookie } from '$/utils/cookies.js'
+import { generateJwt } from '$/utils/crypto.js'
+import { html } from '$/utils/html.js'
+import { redirect } from '$/utils/redirect.js'
 import { layout } from '../_layout.html.js'
 
 const title = 'Register'
